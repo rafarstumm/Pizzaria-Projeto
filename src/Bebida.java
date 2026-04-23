@@ -8,6 +8,14 @@ public class Bebida extends Itens {
         this.preco = preco;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public int getMl() {
+        return ml;
+    }
+
     @Override
     public double calcularPreco() {
         return preco;

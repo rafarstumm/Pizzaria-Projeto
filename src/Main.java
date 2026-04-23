@@ -1,18 +1,28 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+
+    static ArrayList<String> sabores = new ArrayList<>();
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Pedido pedido = new Pedido();
+
+        sabores.add("Calabresa");
+        sabores.add("Frango com Catupiry");
+        sabores.add("Portuguesa");
+
         int opcao;
 
         do {
             System.out.println("\n=== PIZZARIA ===");
-            System.out.println("1 - Adicionar pizza");
-            System.out.println("2 - Adicionar bebida");
+            System.out.println("1 - Pedir pizza");
+            System.out.println("2 - Pedir bebida");
             System.out.println("3 - Ver pedido");
             System.out.println("4 - Finalizar pedido");
-            System.out.println("5 - Sair");
+            System.out.println("5 - Cadastrar novo sabor");
+            System.out.println("6 - Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
             sc.nextLine();
@@ -34,41 +44,37 @@ public class Main {
                     System.out.println("Total final: R$ " + pedido.calcularTotal());
                     break;
                 case 5:
+                    cadastrarNovoSabor(sc);
+                    break;
+                case 6:
                     System.out.println("Encerrando sistema...");
                     break;
                 default:
                     System.out.println("Opção inválida.");
             }
 
-        } while (opcao != 5);
+        } while (opcao != 6);
 
         sc.close();
     }
 
     public static void pedirPizza(Scanner sc, Pedido pedido) {
         System.out.println("\nEscolha o sabor:");
-        System.out.println("1 - Calabresa");
-        System.out.println("2 - Frango com Catupiry");
-        System.out.println("3 - Portuguesa");
+
+        for (int i = 0; i < sabores.size(); i++) {
+            System.out.println((i + 1) + " - " + sabores.get(i));
+        }
+
         System.out.print("Opção: ");
         int saborOpcao = sc.nextInt();
         sc.nextLine();
 
-        String sabor;
-        switch (saborOpcao) {
-            case 1:
-                sabor = "Calabresa";
-                break;
-            case 2:
-                sabor = "Frango com Catupiry";
-                break;
-            case 3:
-                sabor = "Portuguesa";
-                break;
-            default:
-                System.out.println("Sabor inválido.");
-                return;
+        if (saborOpcao < 1 || saborOpcao > sabores.size()) {
+            System.out.println("Sabor inválido.");
+            return;
         }
+
+        String sabor = sabores.get(saborOpcao - 1);
 
         System.out.println("Escolha o tamanho:");
         System.out.println("1 - Pequena");
@@ -102,6 +108,15 @@ public class Main {
         Pizza pizza = new Pizza(sabor, tamanho, preco);
         pedido.adicionarItem(pizza);
         System.out.println("Pizza adicionada com sucesso!");
+    }
+
+    public static void cadastrarNovoSabor(Scanner sc) {
+        System.out.print("\nDigite o nome do novo sabor: ");
+        String novoSabor = sc.nextLine();
+
+        sabores.add(novoSabor);
+
+        System.out.println("Sabor cadastrado com sucesso!");
     }
 
     public static void pedirBebida(Scanner sc, Pedido pedido) {
