@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Main {
 
     static ArrayList<String> sabores = new ArrayList<>();
+    static ArrayList<Bebida> bebidas = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -13,10 +14,13 @@ public class Main {
         sabores.add("Frango com Catupiry");
         sabores.add("Portuguesa");
 
+        bebidas.add(new Bebida("Refrigerante", 2000, 12.0));
+        bebidas.add(new Bebida("Suco", 1000, 8.0));
+
         int opcao;
 
         do {
-            System.out.println("\n=== PIZZARIA ===");
+            System.out.println("\n PIZZARIA ");
             System.out.println("1 - Pedir pizza");
             System.out.println("2 - Pedir bebida");
             System.out.println("3 - Ver pedido");
@@ -39,7 +43,7 @@ public class Main {
                     System.out.println("Total: R$ " + pedido.calcularTotal());
                     break;
                 case 4:
-                    System.out.println("\n=== PEDIDO FINAL ===");
+                    System.out.println("\n PEDIDO FINAL ");
                     pedido.listarItens();
                     System.out.println("Total final: R$ " + pedido.calcularTotal());
                     break;
@@ -47,7 +51,7 @@ public class Main {
                     cadastrarNovoSabor(sc);
                     break;
                 case 6:
-                    System.out.println("Encerrando sistema...");
+                    System.out.println("Encerrando...");
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -121,26 +125,22 @@ public class Main {
 
     public static void pedirBebida(Scanner sc, Pedido pedido) {
         System.out.println("\nEscolha a bebida:");
-        System.out.println("1 - Refrigerante 2L");
-        System.out.println("2 - Suco 1L");
+
+        for (int i = 0; i < bebidas.size(); i++) {
+            Bebida b = bebidas.get(i);
+            System.out.println((i + 1) + " - " + b.getNome() + " " + b.getMl() + "ml | R$ " + b.calcularPreco());
+        }
+
         System.out.print("Opção: ");
         int bebidaOpcao = sc.nextInt();
         sc.nextLine();
 
-        Bebida bebida;
-
-        switch (bebidaOpcao) {
-            case 1:
-                bebida = new Bebida("Refrigerante", 2000, 12.0);
-                break;
-            case 2:
-                bebida = new Bebida("Suco", 1000, 8.0);
-                break;
-            default:
-                System.out.println("Bebida inválida.");
-                return;
+        if (bebidaOpcao < 1 || bebidaOpcao > bebidas.size()) {
+            System.out.println("Bebida inválida.");
+            return;
         }
 
+        Bebida bebida = bebidas.get(bebidaOpcao - 1);
         pedido.adicionarItem(bebida);
         System.out.println("Bebida adicionada com sucesso!");
     }
