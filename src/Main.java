@@ -46,6 +46,28 @@ public class Main {
                     System.out.println("\n PEDIDO FINAL ");
                     pedido.listarItens();
                     System.out.println("Total final: R$ " + pedido.calcularTotal());
+
+                    System.out.println("\nEscolha a forma de pagamento:");
+                    System.out.println("1 - Dinheiro");
+                    System.out.println("2 - Cartão");
+                    System.out.println("3 - Pix");
+                    System.out.print("Opção: ");
+                    int pagamento = sc.nextInt();
+                    sc.nextLine();
+
+                    switch (pagamento) {
+                        case 1:
+                            System.out.println("Pagamento em dinheiro. Obrigado!");
+                            break;
+                        case 2:
+                            System.out.println("Pagamento no cartão. Obrigado!");
+                            break;
+                        case 3:
+                            System.out.println("Pagamento via Pix. Obrigado!");
+                            break;
+                        default:
+                            System.out.println("Forma de pagamento inválida.");
+                    }
                     break;
                 case 5:
                     cadastrarNovoSabor(sc);

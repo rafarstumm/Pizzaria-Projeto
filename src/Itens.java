@@ -1,4 +1,4 @@
-public abstract class Itens {
+public abstract class Itens implements Exibivel {
     protected String nome;
 
     public Itens(String nome) {
