@@ -47,13 +47,13 @@ public class Main {
 
                     switch (pagamento) {
                         case 1:
-                            System.out.println("Pagamento em dinheiro. Obrigado!");
+                            System.out.println("Pagamento em dinheiro. Obrigado, volte sempre!");
                             break;
                         case 2:
-                            System.out.println("Pagamento no cartao. Obrigado!");
+                            System.out.println("Pagamento no cartao. Obrigado, volte sempre!");
                             break;
                         case 3:
-                            System.out.println("Pagamento via Pix. Obrigado!");
+                            System.out.println("Pagamento via Pix. Obrigado, volte sempre!");
                             break;
                         default:
                             System.out.println("Forma de pagamento invalida.");
