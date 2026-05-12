@@ -1,21 +1,11 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-    static ArrayList<String> sabores = new ArrayList<>();
-    static ArrayList<Bebida> bebidas = new ArrayList<>();
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Pedido pedido = new Pedido();
-
-        sabores.add("Calabresa");
-        sabores.add("Frango com Catupiry");
-        sabores.add("Portuguesa");
-
-        bebidas.add(new Bebida("Refrigerante", 2000, 12.0));
-        bebidas.add(new Bebida("Suco", 1000, 8.0));
+        Cardapio cardapio = new Cardapio();
 
         int opcao;
 
@@ -33,10 +23,10 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    pedirPizza(sc, pedido);
+                    pedirPizza(sc, pedido, cardapio);
                     break;
                 case 2:
-                    pedirBebida(sc, pedido);
+                    pedirBebida(sc, pedido, cardapio);
                     break;
                 case 3:
                     pedido.listarItens();
@@ -49,9 +39,9 @@ public class Main {
 
                     System.out.println("\nEscolha a forma de pagamento:");
                     System.out.println("1 - Dinheiro");
-                    System.out.println("2 - Cartão");
+                    System.out.println("2 - Cartao");
                     System.out.println("3 - Pix");
-                    System.out.print("Opção: ");
+                    System.out.print("Opcao: ");
                     int pagamento = sc.nextInt();
                     sc.nextLine();
 
@@ -60,23 +50,23 @@ public class Main {
                             System.out.println("Pagamento em dinheiro. Obrigado!");
                             break;
                         case 2:
-                            System.out.println("Pagamento no cartão. Obrigado!");
+                            System.out.println("Pagamento no cartao. Obrigado!");
                             break;
                         case 3:
                             System.out.println("Pagamento via Pix. Obrigado!");
                             break;
                         default:
-                            System.out.println("Forma de pagamento inválida.");
+                            System.out.println("Forma de pagamento invalida.");
                     }
                     break;
                 case 5:
-                    cadastrarNovoSabor(sc);
+                    cadastrarNovoSabor(sc, cardapio);
                     break;
                 case 6:
                     System.out.println("Encerrando...");
                     break;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opcao invalida.");
             }
 
         } while (opcao != 6);
@@ -84,29 +74,26 @@ public class Main {
         sc.close();
     }
 
-    public static void pedirPizza(Scanner sc, Pedido pedido) {
+    public static void pedirPizza(Scanner sc, Pedido pedido, Cardapio cardapio) {
         System.out.println("\nEscolha o sabor:");
+        cardapio.listarSabores();
 
-        for (int i = 0; i < sabores.size(); i++) {
-            System.out.println((i + 1) + " - " + sabores.get(i));
-        }
-
-        System.out.print("Opção: ");
+        System.out.print("Opcao: ");
         int saborOpcao = sc.nextInt();
         sc.nextLine();
 
-        if (saborOpcao < 1 || saborOpcao > sabores.size()) {
-            System.out.println("Sabor inválido.");
+        if (saborOpcao < 1 || saborOpcao > cardapio.getQuantidadeSabores()) {
+            System.out.println("Sabor invalido.");
             return;
         }
 
-        String sabor = sabores.get(saborOpcao - 1);
+        String sabor = cardapio.getSabor(saborOpcao - 1);
 
         System.out.println("Escolha o tamanho:");
         System.out.println("1 - Pequena");
-        System.out.println("2 - Média");
+        System.out.println("2 - Media");
         System.out.println("3 - Grande");
-        System.out.print("Opção: ");
+        System.out.print("Opcao: ");
         int tamanhoOpcao = sc.nextInt();
         sc.nextLine();
 
@@ -119,7 +106,7 @@ public class Main {
                 preco = 25.0;
                 break;
             case 2:
-                tamanho = "Média";
+                tamanho = "Media";
                 preco = 35.0;
                 break;
             case 3:
@@ -127,7 +114,7 @@ public class Main {
                 preco = 45.0;
                 break;
             default:
-                System.out.println("Tamanho inválido.");
+                System.out.println("Tamanho invalido.");
                 return;
         }
 
@@ -136,33 +123,29 @@ public class Main {
         System.out.println("Pizza adicionada com sucesso!");
     }
 
-    public static void cadastrarNovoSabor(Scanner sc) {
+    public static void cadastrarNovoSabor(Scanner sc, Cardapio cardapio) {
         System.out.print("\nDigite o nome do novo sabor: ");
         String novoSabor = sc.nextLine();
 
-        sabores.add(novoSabor);
+        cardapio.adicionarSabor(novoSabor);
 
         System.out.println("Sabor cadastrado com sucesso!");
     }
 
-    public static void pedirBebida(Scanner sc, Pedido pedido) {
+    public static void pedirBebida(Scanner sc, Pedido pedido, Cardapio cardapio) {
         System.out.println("\nEscolha a bebida:");
+        cardapio.listarBebidas();
 
-        for (int i = 0; i < bebidas.size(); i++) {
-            Bebida b = bebidas.get(i);
-            System.out.println((i + 1) + " - " + b.getNome() + " " + b.getMl() + "ml | R$ " + b.calcularPreco());
-        }
-
-        System.out.print("Opção: ");
+        System.out.print("Opcao: ");
         int bebidaOpcao = sc.nextInt();
         sc.nextLine();
 
-        if (bebidaOpcao < 1 || bebidaOpcao > bebidas.size()) {
-            System.out.println("Bebida inválida.");
+        if (bebidaOpcao < 1 || bebidaOpcao > cardapio.getQuantidadeBebidas()) {
+            System.out.println("Bebida invalida.");
             return;
         }
 
-        Bebida bebida = bebidas.get(bebidaOpcao - 1);
+        Bebida bebida = cardapio.getBebida(bebidaOpcao - 1);
         pedido.adicionarItem(bebida);
         System.out.println("Bebida adicionada com sucesso!");
     }
